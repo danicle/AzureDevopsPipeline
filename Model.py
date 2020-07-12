@@ -31,8 +31,9 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=1)
 print("X training shape : ", X_train.shape )
 print("X test shape : ", X_test.shape )
-print("y training shape :“ , y_train.shape )
-print("y test shape :”, y_test.shape )
+print("X test shape : ", X_test.shape )
+print("y training shape : " , y_train.shape )
+print("y test shape :", y_test.shape )
  
 # creating model
 from sklearn.ensemble import RandomForestRegressor
