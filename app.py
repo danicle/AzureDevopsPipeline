@@ -27,10 +27,10 @@ def welcome():
 @app.route('/predict', methods=['POST','GET'])
 def predict():
   
-   if flask.request.method == 'GET':
-       return "Prediction page"
+#   if flask.request.method == 'GET':
+#       return "Prediction page"
  
-   if flask.request.method == 'POST':
+ #  if flask.request.method == 'POST':
        try:
            json_ = request.json
            print(json_)
