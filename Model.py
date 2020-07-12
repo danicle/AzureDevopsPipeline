@@ -54,13 +54,10 @@ print("Mean Squared Error : ", metrics.mean_squared_error(y_test, prediction_tes
 print("Root Mean Absolute Error : ", np.sqrt(metrics.mean_squared_error(y_test, prediction_test)))
 
 # saving the model
-import pickle
-with open('model/model.pkl','wb') as file:
-    pickle.dump(classifier, file)
 
-
+classifier.to_pickle('model/model.pkl')
 
 # saving the columns
 model_columns = list(X.columns)
-with open('model/model_columns.pkl','wb') as file:
-    pickle.dump(model_columns, file)
+model_columns.to_pickle('model/model_columns.pkl')
+
