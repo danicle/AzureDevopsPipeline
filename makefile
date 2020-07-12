@@ -1,5 +1,5 @@
-setup:
-	python3 -m azure ~/.udacity-devops
+#setup:
+#	python3 -m myenv ~/.udacity-devops
 
 install:
 	pip install --upgrade pip &&\
