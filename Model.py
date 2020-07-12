@@ -55,9 +55,9 @@ print("Root Mean Absolute Error : ", np.sqrt(metrics.mean_squared_error(y_test, 
 
 # saving the model
 
-classifier.to_pickle('model/model.pkl')
+pd.DataFrame(classifier).to_pickle('model/model.pkl')
 
 # saving the columns
 model_columns = list(X.columns)
-model_columns.to_pickle('model/model_columns.pkl')
+pd.DataFrame(model_columns).to_pickle('model/model_columns.pkl')
 
