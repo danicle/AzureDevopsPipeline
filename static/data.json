@@ -1,0 +1,13 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "dependencies": {
+    
+  }
+}
+
+{
+  "01": {
+    "note": "This data is very simple because we're demonstrating only the mechanism."
+  }
+}

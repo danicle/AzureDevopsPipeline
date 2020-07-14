@@ -1,52 +1,30 @@
-from flask import Flask
-
-
-from flask import render_template, request, jsonify
-import flask
-import numpy as np
-import traceback
+from flask import Flask, request, render_template
 import pickle
+import numpy as np
 import pandas as pd
- 
- 
-# App definition
-app = Flask(__name__,template_folder='templates')
- 
-# importing models
-with open('model.pkl', 'rb') as f:
-   classifier = pickle.load (f)
- 
-with open('model_columns.pkl', 'rb') as f:
-   model_columns = pickle.load (f)
- 
- 
-@app.route('/')
-def welcome():
-   return "Boston Housing Price Prediction"
- 
-@app.route('/predict', methods=['POST','GET'])
+app = Flask(__name__)
+
+
+filename = 'finalized_model.sav'
+loaded_model = pickle.load(open(filename, 'rb'))
+x_columns=['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT']
+
+
+@app.route("/")
+def home():
+    return render_template('hello_there.html')
+
+
+@app.route("/predict", methods=['POST'])
 def predict():
-  
-#   if flask.request.method == 'GET':
-#       return "Prediction page"
- 
- #  if flask.request.method == 'POST':
-       try:
-           json_ = request.json
-           print(json_)
-           query_ = pd.get_dummies(pd.DataFrame(json_))
-           query = query_.reindex(columns = model_columns, fill_value= 0)
-           prediction = list(classifier.predict(query))
- 
-           return jsonify({
-               "prediction":str(prediction)
-           })
- 
-       except:
-           return jsonify({
-               "trace": traceback.format_exc()
-               })
-      
- 
+
+    print(request.form.values())
+    features = np.array([float(x) for x in request.form.values()]).reshape(1,-1)
+    features = pd.DataFrame(features, columns = x_columns)
+    preds = loaded_model.predict(features)[0]
+    preds = round(preds,2)
+    return render_template("hello_there.html", output = 'predict is: {}'.format(preds))
+
+
 if __name__ == "__main__":
-   app.run()
+    app.run(debug=True, port= 5042)

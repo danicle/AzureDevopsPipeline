@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
+    <head>
+        <meta charset="utf-8" />
+        <title>Hello, Flask</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <h1 id="title"> Mis inputs</h1>
+            <br>
+                <form id="input" action= "{{ url_for('predict') }}" method="post" >
+                    <input type="text" name = "CRIM" placeholder="CRIM" required="required">
+                    <input type="text" name = "ZN" placeholder="ZN" required="required">
+                    <input type="text" name = "INDUS" placeholder="INDUS" required="required">
+                    <input type="text" name = "CHAS" placeholder="CHAS" required="required">
+                    <input type="text" name = "NOX" placeholder="NOX" required="required">
+                    <input type="text" name = "RM" placeholder="RM" required="required">
+                    <input type="text" name = "AGE" placeholder="AGE" required="required">
+                    <input type="text" name = "DIS" placeholder="DIS" required="required">
+                    <input type="text" name = "RAD" placeholder="RAD" required="required">
+                    <input type="text" name = "TAX" placeholder="TAX" required="required">
+                    <input type="text" name = "PTRATIO" placeholder="PTRATIO" required="required">
+                    <input type="text" name = "B" placeholder="B" required="required">
+                    <input type="text" name = "LSTAT" placeholder="LSTAT" required="required">
+                    <button type="submit" class="btn"> Predict</button>
+                </form>
+            <br>
+            <div id="output">
+                {%  if output %}
+                    {{ output }}
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>

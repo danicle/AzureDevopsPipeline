@@ -1,63 +1,37 @@
-# importing necessary libraries
-import pandas as pd
-import numpy as np
-from sklearn import metrics
- 
- 
-# importing dataset from sklearn
 from sklearn.datasets import load_boston
-boston_data = load_boston()
-
-# initializing dataset
-data_ = pd.DataFrame(boston_data.data)
-
-# Adding features names to the dataframe
-data_.columns = boston_data.feature_names
-
-
-
-# Target feature of Boston Housing data
-data_['PRICE'] = boston_data.target
-
-
-# creating feature and target variable 
-X = data_.drop(['PRICE'], axis=1)
-y = data_['PRICE']
- 
-# splitting into training and testing set
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=1)
-print("X training shape : ", X_train.shape )
-print("X test shape : ", X_test.shape )
-print("X test shape : ", X_test.shape )
-print("y training shape : " , y_train.shape )
-print("y test shape :", y_test.shape )
- 
-# creating model
+import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
-classifier = RandomForestRegressor()
-classifier.fit(X_train, y_train)
+import pickle
+from sklearn.metrics import r2_score,mean_squared_error
 
-# Model evaluation for training data
-prediction = classifier.predict(X_train)
-print("r^2 : ", metrics.r2_score(y_train, prediction))
-print("Mean Absolute Error: ", metrics.mean_absolute_error(y_train, prediction))
-print("Mean Squared Error: ", metrics.mean_squared_error(y_train, prediction))
-print("Root Mean Squared Error : ", np.sqrt(metrics.mean_squared_error(y_train, prediction)))
+import warnings; warnings.simplefilter('ignore')
+
+from sklearn.model_selection import train_test_split
+
+data = load_boston()
+
+X = pd.DataFrame(data.data,columns=data.feature_names)
+y = pd.DataFrame(data.target,columns=['price'])
 
 
-# Model evaluation for testing data
-prediction_test = classifier.predict(X_test)
-print("r^2 : ", metrics.r2_score(y_test, prediction_test))
-print("Mean Absolute Error : ", metrics.mean_absolute_error(y_test, prediction_test))
-print("Mean Squared Error : ", metrics.mean_squared_error(y_test, prediction_test))
-print("Root Mean Absolute Error : ", np.sqrt(metrics.mean_squared_error(y_test, prediction_test)))
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# saving the model
 
-pd.DataFrame(classifier).to_pickle('model.pkl')
+model = RandomForestRegressor(max_depth=10, random_state=0)
 
-# saving the columns
-model_columns = list(X.columns)
-pd.DataFrame(model_columns).to_pickle('model_columns.pkl')
+model.fit(X_train, y_train)
+
+
+filename = 'finalized_model.sav'
+
+pickle.dump(model, open(filename, 'wb'))
+
+
+y_pred = model.predict(X_test)
+
+y_pred = pd.DataFrame(y_pred,columns=y_test.columns)
+
+
+#print(r2_score(y_test,y_pred))
+#print(mean_squared_error(y_test,y_pred))
 
